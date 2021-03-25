@@ -7,6 +7,9 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
+const authRoutes = require("./routes/auth")
+
+// DB CONNNECTION
 mongoose
   .connect(process.env.DATABASE, {
     useNewUrlParser: true,
@@ -18,14 +21,17 @@ mongoose
   })
   .catch(console.log("DB CRASHED"));
 
-  
-app.use(bodyParser.json())
-app.use(cookieParser())
-app.use(cors())
+// MIDDLEWARES
+app.use(express.json());
+app.use(cookieParser());
+app.use(cors());
 
-
+// MY ROUTES
+app.use("/api", authRoutes)
+// PORT
 const port = process.env.PORT || 8000;
 
+// STARTNG SERVER
 app.listen(8000, () => {
   console.log(`app is running at ${port}`);
 });
