@@ -1,8 +1,8 @@
 const User = require("../models/user");
 const Order = require("../models/order");
-const { unsubscribe } = require("../routes/auth");
+const { } = require("../routes/auth");
 
-exports.getUserByID = (req, res, next, id) => {
+exports.getUserById = (req, res, next, id) => {
   User.findById(id).exec((err, user) => {
     if (err || !user) {
       return res.status(400).json({

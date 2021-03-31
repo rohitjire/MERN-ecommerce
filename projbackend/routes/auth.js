@@ -1,6 +1,6 @@
 var express = require("express");
 var router = express.Router();
-const { signout, signup, signin, isSignenedIn } = require("../controllers/auth");
+const { signout, signup, signin, isSignedIn } = require("../controllers/auth");
 const { check } = require("express-validator");
 
 router.post(
@@ -28,7 +28,7 @@ router.post(
 router.get("/signout", signout);
 
 
-router.get("/testRoute", isSignenedIn, (req, res) =>{
+router.get("/testRoute", isSignedIn, (req, res) =>{
   res.send("A Protected route")
 })
 
