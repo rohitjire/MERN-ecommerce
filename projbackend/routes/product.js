@@ -13,7 +13,6 @@ const {
 } = require("../controllers/product");
 const { getUserById } = require("../controllers/user");
 const { isSignedIn, isAuthenticated, isAdmin } = require("../controllers/auth");
-const { removeCategory } = require("../controllers/category");
 
 router.param("userId", getUserById);
 router.param("productId", getProductById);
