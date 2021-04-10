@@ -1,11 +1,11 @@
-import React, { userState } from "react";
+import React, { useState } from "react";
 import Base from "../core/Base";
 import { Link, Redirect } from "react-router-dom";
 
 import { signin, autheticate, isAuthenticated } from "../auth/helper";
 
 const Signin = () => {
-  const [values, setValues] = userState({
+  const [values, setValues] = useState({
     emai: "",
     password: "",
     error: "",
@@ -23,7 +23,7 @@ const Signin = () => {
   const onSubmit = (event) => {
     event.preventDefault();
     setValues({ ...values, error: false, loading: true });
-    signin({ emai, password })
+    signin({ email, password })
       .then((data) => {
         if (data.error) {
           setValues({ ...values, error: true, loading: false });
@@ -37,6 +37,20 @@ const Signin = () => {
         }
       })
       .catch(console.log("Signedin Request failed"));
+  };
+
+  const performRedirect = () => {
+    if (didRedirect) {
+      if (user && user.role === 1) {
+        return <p>redirect to admin</p>;
+      } else {
+        return <p>redirect to user dashboad</p>;
+      }
+    }
+
+    if (isAuthenticated()) {
+      return <Redirect to="/"></Redirect>;
+    }
   };
 
   const signInForm = () => {
@@ -56,7 +70,7 @@ const Signin = () => {
             <div className="form-group mt-2 mb-3">
               <label className="text-light">Password</label>
               <input
-                onChange={handleChange("email")}
+                onChange={handleChange("password")}
                 className="form-control"
                 value={password}
                 type="password"
@@ -73,19 +87,12 @@ const Signin = () => {
     );
   };
 
-  const successMessage = () => (
-    <div className="row top-buffer">
-      <div className="col-md-6 offset-sm-3 text-center px-5">
-        <div
-          className="alert alert-success py-1"
-          style={{ display: success ? "" : "none" }}
-        >
-          New account was created successfully. Please{" "}
-          <Link to="/signin">Login here</Link>
-        </div>
+  const loadingMessage = () =>
+    loading && (
+      <div className="alert alert-info">
+        <h2>Loading...</h2>
       </div>
-    </div>
-  );
+    );
 
   const errorMessage = () => (
     <div className="row top-buffer">
@@ -102,7 +109,11 @@ const Signin = () => {
 
   return (
     <Base title="SignIn page" description="A page for user to sign In!">
+      {loadingMessage()}
+      {errorMessage()}
       {signInForm()}
+      {performRedirect()}
+      <p className="text-white text-center">{JSON.stringify(values)}</p>
     </Base>
   );
 };

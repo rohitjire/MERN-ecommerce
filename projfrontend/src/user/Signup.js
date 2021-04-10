@@ -89,7 +89,7 @@ const Signup = () => {
           className="alert alert-success py-1"
           style={{ display: success ? "" : "none" }}
         >
-          New account was created successfully. Please{" "}
+          New account was created successfully. Please
           <Link to="/signin">Login here</Link>
         </div>
       </div>
