@@ -6,7 +6,6 @@ const Base = ({
     description="My description",
     className=" text-white p-4",
     children
-
 }) => {
   return (
     <div>
