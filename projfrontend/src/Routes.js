@@ -8,8 +8,9 @@ import AdminDashboard from "./user/AdminDashBoard";
 import Signin from "./user/Signin";
 import Signup from "./user/Signup";
 import UserDashboard from "./user/UserDashBoard";
-import AddProduct from './admin/AddProduct'
+import AddProduct from "./admin/AddProduct";
 import AddCategory from "./admin/AddCategory";
+import ManageProducts from "./admin/ManageProducts";
 
 export default function Routes() {
   return (
@@ -33,15 +34,20 @@ export default function Routes() {
           path="/admin/create/category"
           component={AddCategory}
         ></AdminRoute>
-            <AdminRoute
+        <AdminRoute
           exact
           path="/admin/categories"
           component={ManageCategories}
         ></AdminRoute>
-                    <AdminRoute
+        <AdminRoute
           exact
           path="/admin/create/product"
           component={AddProduct}
+        ></AdminRoute>
+        <AdminRoute
+          exact
+          path="/admin/products"
+          component={ManageProducts}
         ></AdminRoute>
       </Switch>
     </BrowserRouter>

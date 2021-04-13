@@ -1,20 +1,117 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Base from "../core/Base";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { createProduct, getCategories } from "./helper/adminapicall";
+import { isAuthenticated } from "../auth/helper";
 
 export default function AddProduct() {
+  const { user, token } = isAuthenticated();
+
   const [values, setValues] = useState({
     name: "",
     description: "",
     price: "",
     stock: "",
+    photo: "",
+    categories: [],
+    category: "",
+    loading: false,
+    error: "",
+    createdProduct: "",
+    getaRedirect: false,
+    formData: "",
   });
 
-  const { name, description, price, stock } = values;
+  const {
+    name,
+    description,
+    price,
+    stock,
+    categories,
+    category,
+    loading,
+    error,
+    createdProduct,
+    getaRedirect,
+    formData,
+  } = values;
 
-  const onSubmit = () => {};
+  const preLoad = () => {
+    getCategories().then((data) => {
+      //console.log(data);
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({ ...values, categories: data, formData: new FormData() });
+        console.log("Cate:", categories);
+      }
+    });
+  };
 
-  const handleChange = (name) => (event) => {};
+  // const goBackTimeout = () => {
+  //   let timer = setTimeout(
+  //     () => setValues({ ...values, getaRedirect: true }),
+  //     2 * 1000
+  //   );
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // };
+
+  useEffect(() => {
+    preLoad();
+  }, []);
+
+  // useEffect(() => {
+  //   goBackTimeout();
+  // }, []);
+
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setValues({ ...values, error: "", loading: true });
+
+    createProduct(user._id, token, formData).then((data) => {
+      if (data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({
+          ...values,
+          name: "",
+          description: "",
+          price: "",
+          photo: "",
+          stock: "",
+          loading: false,
+          createdProduct: data.name,
+        });
+      }
+    });
+  };
+
+  const handleChange = (name) => (event) => {
+    const value = name === "photo" ? event.target.files[0] : event.target.value;
+    formData.set(name, value);
+
+    setValues({ ...values, [name]: value });
+  };
+
+  const errorMessage = () => (
+    <div
+      className="alert alert-danger mt-1 p-2"
+      style={{ display: error ? "" : "none" }}
+    >
+      <h6>{error}</h6>
+    </div>
+  );
+
+  const successMessage = () => (
+    <div
+      className="alert alert-success mt-3"
+      style={{ display: createdProduct ? "" : "none" }}
+    >
+      <h4>{createdProduct} created successfully</h4>
+    </div>
+  );
 
   const createProductForm = () => (
     <form>
@@ -64,13 +161,17 @@ export default function AddProduct() {
           placeholder="Category"
         >
           <option>Select</option>
-          <option value="a">a</option>
-          <option value="b">b</option>
+          {categories &&
+            categories.map((cate, index) => (
+              <option key={index} value={cate._id}>
+                {cate.name}
+              </option>
+            ))}
         </select>
       </div>
       <div className="form-group">
         <input
-          onChange={handleChange("quantity")}
+          onChange={handleChange("stock")}
           type="number"
           className="form-control"
           placeholder="Quantity"
@@ -98,7 +199,12 @@ export default function AddProduct() {
         Admin Home
       </Link>
       <div className="row bg-dark text-white rounded">
-        <div className="col-md-8 offset-md-2">{createProductForm()}</div>
+        <div className="col-md-8 offset-md-2">
+          {successMessage()}
+          {errorMessage()}
+          {/* getaRedirect ? <Redirect to="/admin/dashboard"></Redirect> : <div><h1>Hi</h1></div> */}
+          {createProductForm()}
+        </div>
       </div>
     </Base>
   );
