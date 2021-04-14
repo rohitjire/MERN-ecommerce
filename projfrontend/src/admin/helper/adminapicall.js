@@ -64,7 +64,6 @@ export const deleteProduct = (userId, token, productId) => {
     method: "DELETE",
     headers: {
       Accept: "application/json",
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     }
   })

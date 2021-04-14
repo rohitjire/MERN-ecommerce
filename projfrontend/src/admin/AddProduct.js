@@ -195,7 +195,7 @@ export default function AddProduct() {
       description="Create your Products here"
       className=" container bg-success p-3 overflow-y: scrol"
     >
-      <Link to="/admin/dashboard" className="btn btn-md btn-dark mb-3">
+      <Link to="/admin/dashboard" className="btn btn-sm btn-dark mb-3">
         Admin Home
       </Link>
       <div className="row bg-dark text-white rounded">
