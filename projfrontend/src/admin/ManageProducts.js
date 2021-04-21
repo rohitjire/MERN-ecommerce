@@ -33,6 +33,7 @@ export default function ManageProducts() {
     });
   };
 
+
   return (
     <Base title="Welcome admin" description="Manage products here">
       <Link className="btn btn-sm btn-light mb-3" to={`/admin/dashboard`}>
@@ -54,7 +55,7 @@ export default function ManageProducts() {
               <div className="col-4">
                 <Link
                   className="btn btn-success"
-                  to={`/admin/product/update/productId`}
+                  to={`/admin/product/update/${product._id}`}
                 >
                   <span className="">Update</span>
                 </Link>

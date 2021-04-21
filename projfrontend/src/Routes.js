@@ -11,6 +11,7 @@ import UserDashboard from "./user/UserDashBoard";
 import AddProduct from "./admin/AddProduct";
 import AddCategory from "./admin/AddCategory";
 import ManageProducts from "./admin/ManageProducts";
+import UpdateProduct from "./admin/UpdateProduct";
 
 export default function Routes() {
   return (
@@ -48,6 +49,11 @@ export default function Routes() {
           exact
           path="/admin/products"
           component={ManageProducts}
+        ></AdminRoute>
+        <AdminRoute
+          exact
+          path="/admin/product/update/:productId"
+          component={UpdateProduct}
         ></AdminRoute>
       </Switch>
     </BrowserRouter>

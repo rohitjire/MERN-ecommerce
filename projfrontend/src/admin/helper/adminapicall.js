@@ -76,14 +76,14 @@ export const deleteProduct = (userId, token, productId) => {
 
 //get a product
 
-export const getProduct = (productId) => {
+export const getProduct = productId => {
   return fetch(`${API}/product/${productId}`, {
-    method: "GET",
+    method: "GET"
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.log(err));
+    .catch(err => console.log(err));
 };
 
 //update a product
