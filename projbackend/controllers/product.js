@@ -6,7 +6,7 @@ const category = require("../models/category");
 
 exports.getProductById = (req, res, next, id) => {
   Product.findById(id)
-    .pooulate("category")
+    .populate("category")
     .exec((err, product) => {
       if (err) {
         return res.status(400).json({
@@ -14,8 +14,8 @@ exports.getProductById = (req, res, next, id) => {
         });
       }
       req.product = product;
+      next();
     });
-  next();
 };
 
 exports.createProduct = (req, res) => {
@@ -63,7 +63,7 @@ exports.createProduct = (req, res) => {
 };
 
 exports.getProduct = (req, res) => {
-  req.product.photo = undefined;
+    req.product.photo = undefined;
   return res.json(req.product);
 };
 
@@ -134,7 +134,7 @@ exports.getAllProducts = (req, res) => {
           error: "No products found",
         });
       }
-      res, json(products);
+      res.json(products);
     });
 };
 
