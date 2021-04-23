@@ -6,7 +6,7 @@ import Base from "./Base";
 import Card from "./Card";
 
 export default function Home() {
-  const [Produtcs, setProducts] = useState([]);
+  const [Products, setProducts] = useState([]);
   const [error, setError] = useState(false);
 
   const loadAllProducts = () => {
@@ -28,7 +28,7 @@ export default function Home() {
       <div className="row text-center">
         <h1 className="text-white">All of Tshirts</h1>
         <div className="row mt-5">
-          {Produtcs.map((product,index)=>{
+          {Products.map((product,index)=>{
             return(
               <div key={index}className="col-3 mb-4">
                 <Card product = {product}>
